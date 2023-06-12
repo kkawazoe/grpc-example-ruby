@@ -1,0 +1,30 @@
+version: '3.9'
+
+services:
+  server:
+    build:
+      context: .
+      dockerfile: containers/ruby/Dockerfile
+    env_file: containers/server/env
+    command: irb
+    tty: true
+    stdin_open: true
+    volumes:
+      - .:/app
+      - bundle_data:/usr/local/bundle:cached
+
+  client:
+    build:
+      context: .
+      dockerfile: containers/ruby/Dockerfile
+    env_file: containers/client/env
+    command: irb
+    tty: true
+    stdin_open: true
+    volumes:
+      - .:/app
+      - bundle_data:/usr/local/bundle:cached
+
+volumes:
+  bundle_data:
+    driver: local
